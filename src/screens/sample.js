@@ -1,11 +1,4 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  SafeAreaView,
-  TextInput,
-  TouchableOpacity,
-} from "react-native";
+import { View, Text, StyleSheet, SafeAreaView, TextInput, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 
 const Sample = () => {
@@ -30,6 +23,10 @@ const Sample = () => {
     setIsAccessible(!isAccessible);
   };
 
+  const handlePost = () => {
+    // Code to handle the post action
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -40,35 +37,37 @@ const Sample = () => {
           style={styles.TitleInput}
           onChangeText={handleTitleChange}
           value={title}
-          placeholder=" event title"
+          placeholder="Enter event title"
         />
         <TextInput
           style={styles.CapacityInput}
           onChangeText={handleCapacityChange}
           value={capacity}
-          placeholder=" event capacity"
+          placeholder="Enter event capacity"
         />
         <TextInput
           style={styles.DescriptionInput}
           onChangeText={handleDescriptionChange}
           value={description}
-          placeholder=" event description"
+          placeholder="Enter event description"
           multiline={true}
           numberOfLines={4}
         />
-        <TouchableOpacity
-          onPress={toggleAccessibility}
-          style={styles.accessibility}
-        >
+        <TouchableOpacity onPress={toggleAccessibility} style={styles.accessibility}>
           <Text>Accessibility: {isAccessible ? "Yes" : "No"}</Text>
         </TouchableOpacity>
-        <Text>Title: {title}</Text>
+        <TouchableOpacity onPress={handlePost} style={styles.postButton}>
+          <Text style={styles.postText}>Post</Text>
+        </TouchableOpacity>
+        {/* <Text>Title: {title}</Text>
         <Text>Capacity: {capacity}</Text>
         <Text>Description: {description}</Text>
+        <Text>Accessibility: {isAccessible ? "Yes" : "No"}</Text> */}
       </View>
     </SafeAreaView>
   );
 };
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -130,8 +129,20 @@ const styles = StyleSheet.create({
     width: 300, // Increased width
     alignItems: "center",
   },
+  postButton: {
+    backgroundColor: "darkred",
+    marginTop: 20,
+    marginLeft: 20,
+    width: 300,
+    borderRadius: 15,
+    padding: 15,
+    alignItems: "center",
+  },
+  postText: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 20,
+  },
 });
-
-
 
 export default Sample;
