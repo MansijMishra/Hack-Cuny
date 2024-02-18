@@ -1,11 +1,16 @@
-import { View, Text, StyleSheet, SafeAreaView, TextInput, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
+import { View, Text, StyleSheet, SafeAreaView, TextInput, TouchableOpacity, ScrollView } from "react-native";
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import { supabase } from '../supabase/supabase';
 
 const Sample = () => {
   const [title, setTitle] = useState("");
   const [capacity, setCapacity] = useState("");
   const [description, setDescription] = useState("");
   const [isAccessible, setIsAccessible] = useState(true);
+  const [address, setAddress] = useState("");
+  const [long, setLong] = useState("");
+  const [lat, setLat] = useState("");
 
   const handleTitleChange = (text) => {
     setTitle(text);
@@ -23,8 +28,23 @@ const Sample = () => {
     setIsAccessible(!isAccessible);
   };
 
-  const handlePost = () => {
+  const handleAddressChange = (data, details = null) => {
+
+    setLat(details.geometry.location.lat);
+    setLong(details.geometry.location.lng);
+
+    setAddress(data.description);
+    console.log(long);
+    console.log(lat);
+  };
+
+  const handlePost = async () => {
     // Code to handle the post action
+    const { error } = await supabase
+    .from('Events')
+    .insert({ title: title, description: description, lng: long, lat: lat, capacity: capacity, is_accessible: isAccessible })
+    console.log(eventData);
+    // Further processing logic here, like sending data to backend
   };
 
   return (
@@ -32,6 +52,7 @@ const Sample = () => {
       <View style={styles.header}>
         <Text style={styles.newEvents}>Create a New Event</Text>
       </View>
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
       <View style={styles.content}>
         <TextInput
           style={styles.TitleInput}
@@ -53,17 +74,35 @@ const Sample = () => {
           multiline={true}
           numberOfLines={4}
         />
+        <GooglePlacesAutocomplete
+          fetchDetails={true}
+          placeholder="Address"
+          onPress={handleAddressChange}
+          query={{
+            key: 'AIzaSyB_d5kEvcHC0QWfoRSk_KO0B2aLdUbbWbw',
+            language: 'en',
+          }}
+          styles={{
+            textInputContainer: {
+              backgroundColor: 'lightgrey',
+              marginTop: 20,
+              marginLeft: 20,
+              borderRadius: 15,
+              width: 300,
+            },
+            textInput: {
+              height: 40,
+            },
+          }}
+        />
         <TouchableOpacity onPress={toggleAccessibility} style={styles.accessibility}>
           <Text>Accessibility: {isAccessible ? "Yes" : "No"}</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={handlePost} style={styles.postButton}>
           <Text style={styles.postText}>Post</Text>
         </TouchableOpacity>
-        {/* <Text>Title: {title}</Text>
-        <Text>Capacity: {capacity}</Text>
-        <Text>Description: {description}</Text>
-        <Text>Accessibility: {isAccessible ? "Yes" : "No"}</Text> */}
       </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -88,35 +127,35 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   TitleInput: {
-    height: 60, // Increased height
+    height: 60,
     borderColor: "gray",
     borderWidth: 1,
-    marginTop: 40,
+    marginTop: 20,
     marginLeft: 20,
     paddingHorizontal: 10,
-    width: 300, // Increased width
+    width: 300,
     borderRadius: 15,
     backgroundColor: "lightgrey",
   },
   CapacityInput: {
-    height: 60, // Increased height
+    height: 60,
     borderColor: "gray",
     borderWidth: 1,
     marginTop: 20,
     marginLeft: 20,
     paddingHorizontal: 10,
-    width: 300, // Increased width
+    width: 300,
     borderRadius: 15,
     backgroundColor: "lightgrey",
   },
   DescriptionInput: {
-    height: 120, // Increased height
+    height: 120,
     borderColor: "gray",
     borderWidth: 1,
     marginTop: 20,
     marginLeft: 20,
     paddingHorizontal: 10,
-    width: 300, // Increased width
+    width: 300,
     borderRadius: 15,
     backgroundColor: "lightgrey",
   },
@@ -126,7 +165,7 @@ const styles = StyleSheet.create({
     backgroundColor: "lightgrey",
     borderRadius: 15,
     padding: 10,
-    width: 300, // Increased width
+    width: 300,
     alignItems: "center",
   },
   postButton: {
