@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import MapView, { Marker, Callout }from 'react-native-maps';
 import { SupabaseAuthClient } from '@supabase/supabase-js/dist/module/lib/SupabaseAuthClient';
@@ -6,41 +6,23 @@ import { useEffect } from 'react';
 import { supabase } from '../supabase/supabase';
 const MapScreen = () => {
 
+  const [Events, setEvents] = useState([]);
+
   const getEvents = async  () => {
-    let { data: Events, error } = await supabase
+    let { data: data, error } = await supabase
     .from('Events')
     .select('*')
-    return Events
+    setEvents(data)
   }
 
   useEffect(() => {
     getEvents()
-      .then((Events) => {
-        console.log("event", Events);
-      });
   }, []);
 
-
-  const eventsData = [
-    {
-      id: 1,
-      latitude: 40.730610,
-      longitude: -73.935242,
-      title: "Hackathon",
-      description: "Come Join us for Hack CUNY !",
-      capacity: 200
-    },
-    {
-      id: 2,
-      latitude: 40.730610,
-      longitude: -73.835242,
-      title: "Event 2",
-      description: "Description for Event 2",
-      capacity: 15
-    },
-    // Add more events as needed
-  ];
-
+  useEffect(() => {
+    console.log("Events updated:", Events); // This logs the updated state.
+  }, [Events]); // This triggers whenever 'Events' changes.
+  
   return (
     <MapView
     style={{ flex: 1 }}
@@ -50,10 +32,10 @@ const MapScreen = () => {
       latitudeDelta: 0.0922,
       longitudeDelta: 0.0421,
     }}>
-    {eventsData.map(event => (
+    {Events.map(event => (
       <Marker
         key={event.id} // Use event id as the key
-        coordinate={{ latitude: event.latitude, longitude: event.longitude }}
+        coordinate={{ latitude: event.lat, longitude: event.lng }}
         title={event.title}
         description={event.description}>
         <View style={styles.marker}>
