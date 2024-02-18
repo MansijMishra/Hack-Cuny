@@ -26,6 +26,7 @@ const MapScreen = () => {
   return (
     <MapView
     style={{ flex: 1 }}
+    userInterfaceStyle="dark"
     initialRegion={{
       latitude: 40.730610,
       longitude: -73.935242,
