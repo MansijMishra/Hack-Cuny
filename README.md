@@ -45,4 +45,4 @@ To get started with CitiVents, follow these steps:
 #### This project was created by - Mansij Mishra, Henry Suarez, Arihant Tiwari 
 ## License
 
-## This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+### This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
