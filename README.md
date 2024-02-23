@@ -6,9 +6,9 @@ Youtube: https://www.youtube.com/watch?v=SZ-Ll7BAzdo&ab_channel=arihanttiwari
 
 Devpost: https://devpost.com/software/commucity
 <div style="display: flex; justify-content: space-around;">
-    <img src='assets/Home Page.png' title='Home Page' width='300' alt='Home Page Img' />
-    <img src='assets/Event Creation.png' width='300' alt='Events Page Img' />
-    <img src='assets/Map interface.png' width='300' alt='Events Page Img' />
+    <img src='assets/Home Page.png' title='Home Page' width='200' alt='Home Page Img' />
+    <img src='assets/Event Creation.png' width='200' alt='Events Page Img' />
+    <img src='assets/Map interface.png' width='200' alt='Events Page Img' />
 </div>
 
 ## Features
